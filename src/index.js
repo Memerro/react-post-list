@@ -1,6 +1,10 @@
-import React from "react"
+import React, {Fragment} from "react"
 import ReactDOM from "react-dom"
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+
 import PostList from "./posts"
+import SinglePost from "./SinglePost"
+import NotFound from "./404"
 import './style.sass'
 
 class App extends React.Component {
@@ -19,12 +23,12 @@ class App extends React.Component {
           isLoading: false,
         })
       )
-      .catch(error => this.setState({ error, isLoading: false }));
+      .catch(error => this.setState({error, isLoading: false}));
   }
 
   onSearchChange = e => {
     let query = e.target.value;
-    let { articles } = this.state;
+    let {articles} = this.state;
 
     if (!query) this.setState({articles: articles})
 
@@ -37,7 +41,7 @@ class App extends React.Component {
 
         this.setState({articles: updatedList});
       })
-      .catch(error => this.setState({ error, isLoading: false }));
+      .catch(error => this.setState({error, isLoading: false}));
   }
 
   componentDidMount() {
@@ -45,25 +49,35 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoading, articles, error } = this.state;
+    const {isLoading, articles, error} = this.state;
     return (
-      <div className="wrapper">
-        <h1>Fresh news for today!</h1>
+      <Router>
+        <div className="wrapper">
+          <Switch>
+            <Route exact path="/" render={() => (
+              <Fragment>
+                <h1>Fresh news for today!</h1>
 
-        <input className="search" type="search"
-               onChange={this.onSearchChange}
-               name="search"
-               placeholder="Search the news you like!" />
+                <input className="search" type="search"
+                       onChange={this.onSearchChange}
+                       name="search"
+                       placeholder="Search the news you like!"/>
 
-        {error ? <p>{error.message}</p> : null}
-        {!isLoading ? (
-          <PostList articles={this.state.articles} />
-        ) : (
-          <h3>Loading...</h3>
-        )}
-      </div>
+                {error ? <p>{error.message}</p> : null}
+                {!isLoading ? (
+                  <PostList articles={articles}/>
+                ) : (
+                  <h3>Loading...</h3>
+                )}
+              </Fragment>
+            )}/>
+            <Route path="/post/:id" component={SinglePost}/>
+            <Route component={NotFound}/>
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App/>, document.getElementById("root"));
