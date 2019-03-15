@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 import {Link} from "react-router-dom"
 import NotFound from './404';
 import Commentary from './commentary';
-import './singlepost.sass'
+import '../styles/singlepost.sass'
 
 class SinglePost extends React.Component {
   constructor(props) {

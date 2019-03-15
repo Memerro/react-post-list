@@ -2,10 +2,10 @@ import React, {Fragment} from "react"
 import ReactDOM from "react-dom"
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
-import PostList from "./posts"
-import SinglePost from "./SinglePost"
-import NotFound from "./404"
-import './style.sass'
+import PostList from "./js/posts"
+import SinglePost from "./js/SinglePost"
+import NotFound from "./js/404"
+import './styles/style.sass'
 
 class App extends React.Component {
   state = {
