@@ -3,6 +3,7 @@ import React, {Fragment} from 'react';
 import {Link} from "react-router-dom"
 import NotFound from './404';
 import Commentary from './commentary';
+import './singlepost.sass'
 
 class SinglePost extends React.Component {
   constructor(props) {
@@ -19,6 +20,8 @@ class SinglePost extends React.Component {
     const {id} = this.props.match.params;
 
     if (!id) return (<NotFound/>)
+
+    let index = id * 5 - 5;
 
     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
       .then(response => {
@@ -37,7 +40,7 @@ class SinglePost extends React.Component {
         this.setState({isLoading: false, error: error})
       });
     
-    fetch(`https://jsonplaceholder.typicode.com/comments?_start=${id}*5-5&_limit=5`)
+    fetch(`https://jsonplaceholder.typicode.com/comments?_start=${index}&_limit=5`)
     .then(response => {
       if (response.status !== 200) {
         throw Error("Not Found")
@@ -60,16 +63,18 @@ class SinglePost extends React.Component {
   render() {
     const {isLoading, article, comments, error} = this.state;
       return (
-        <div>
+        <div className="wrapper">
           {error && <NotFound message={error}/>}
-          <Link to='/'>Home</Link>
+          <div className="home"> 
+            <Link to='/'>Home</Link>
+          </div>
           {!isLoading ? (
             <Fragment>
-              <div>
+              <div className="article">
                 <h1>{article.title}</h1>
                 <p>{article.body}</p>
               </div>
-              <div>
+              <div className="comments">
                 <h2>Comments:</h2>
                 <Commentary comments={comments} />
               </div>

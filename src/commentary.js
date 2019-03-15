@@ -6,10 +6,10 @@ const Commentary = props =>
         {props.comments.map(comment => {
             const {id, name, email, body} = comment;
             return (
-                <div key={id}>
-                    <p key={id}>{name}</p>
-                    <p key={id}>{email}</p>
-                    <p key={id}>{body}</p>
+                <div key={id} className="comment">
+                    <p>{name}</p>
+                    <p>{email}</p>
+                    <p>{body}</p>
                 </div>
             )
         })}
